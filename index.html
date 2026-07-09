@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>enlightmint. — Creative Strategy, NYC × PDX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#111310;
+    --paper:#FAF8F3;
+    --paper-dim:#F1EEE5;
+    --mint:#3F6B52;
+    --mint-bright:#59A47C;
+    --mint-tint:#E3EBE1;
+    --line:rgba(17,19,16,0.12);
+    --muted:#5B5C55;
+    --f-display:'Space Grotesk', sans-serif;
+    --f-body:'Inter', sans-serif;
+    --f-mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--f-body);
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  /* grain texture overlay */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:9999;
+    opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrap{max-width:1180px; margin:0 auto; padding:0 6vw;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:1.6rem 6vw;
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:100;
+    background:rgba(250,248,243,0.86);
+    backdrop-filter:blur(10px);
+  }
+  .brand{display:flex; align-items:center; gap:0.65rem;}
+  .brand svg{width:34px; height:34px; flex-shrink:0;}
+  .brand span{
+    font-family:var(--f-display); font-weight:600; font-size:1.28rem;
+    letter-spacing:-0.01em;
+  }
+  .nav-links{display:flex; gap:2.2rem; align-items:center; list-style:none;}
+  .nav-links a{
+    font-size:0.92rem; color:var(--ink); opacity:0.75; transition:opacity .2s;
+  }
+  .nav-links a:hover{opacity:1;}
+  .btn{
+    display:inline-flex; align-items:center; gap:0.5rem;
+    padding:0.75rem 1.4rem; font-size:0.88rem; font-weight:500;
+    border-radius:100px; border:1.5px solid var(--ink);
+    transition:all .2s ease; cursor:pointer; white-space:nowrap;
+  }
+  .btn-solid{background:var(--ink); color:var(--paper);}
+  .btn-solid:hover{background:var(--mint); border-color:var(--mint);}
+  .btn-outline{background:transparent; color:var(--ink);}
+  .btn-outline:hover{background:var(--ink); color:var(--paper);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:5.5rem 0 4rem;
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:3rem; align-items:center;
+  }
+  .eyebrow{
+    font-family:var(--f-mono); font-size:0.78rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--mint); margin-bottom:1.3rem;
+    display:flex; align-items:center; gap:0.6rem;
+  }
+  .eyebrow::before{
+    content:""; width:7px; height:7px; border-radius:50%; background:var(--mint-bright);
+  }
+  .hero h1{
+    font-family:var(--f-display); font-weight:600;
+    font-size:clamp(2.4rem, 4.6vw, 3.6rem);
+    line-height:1.06; letter-spacing:-0.02em; margin-bottom:1.4rem;
+  }
+  .hero h1 em{font-style:normal; color:var(--mint);}
+  .hero p{
+    font-size:1.1rem; color:var(--muted); max-width:480px; margin-bottom:2.2rem;
+  }
+  .hero-actions{display:flex; gap:0.9rem; flex-wrap:wrap;}
+
+  /* certification stamp */
+  .stamp-wrap{display:flex; justify-content:center; align-items:center; position:relative;}
+  .stamp{
+    width:min(320px, 80vw); aspect-ratio:1; position:relative;
+    animation:float 6s ease-in-out infinite;
+  }
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  .stamp svg{width:100%; height:100%;}
+  .stamp-rotate{animation:spin 26s linear infinite; transform-origin:50% 50%;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion:reduce){
+    .stamp, .stamp-rotate{animation:none;}
+  }
+
+  /* ---------- IDENTITY BAR ---------- */
+  .identity-bar{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:1rem 0; font-family:var(--f-mono); font-size:0.78rem;
+    letter-spacing:0.06em; text-transform:uppercase; color:var(--muted);
+    display:flex; justify-content:center; gap:2.4rem; flex-wrap:wrap;
+  }
+  .identity-bar span{display:flex; align-items:center; gap:0.5rem;}
+  .identity-bar span::before{content:"·"; color:var(--mint-bright); font-size:1.2rem;}
+  .identity-bar span:first-child::before{content:none;}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section{padding:5.5rem 0;}
+  .section-tag{
+    font-family:var(--f-mono); font-size:0.78rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--mint); margin-bottom:0.9rem;
+  }
+  .section-title{
+    font-family:var(--f-display); font-weight:600;
+    font-size:clamp(1.7rem, 3vw, 2.3rem); letter-spacing:-0.015em;
+    max-width:640px; margin-bottom:3rem;
+  }
+
+  /* ---------- LEDGER / SERVICES ---------- */
+  .ledger{border-top:1px solid var(--ink);}
+  .ledger-row{
+    display:grid; grid-template-columns:110px 1fr 1.4fr;
+    gap:2rem; padding:2rem 0; border-bottom:1px solid var(--line);
+    align-items:baseline; transition:background .25s;
+  }
+  .ledger-row:hover{background:var(--paper-dim);}
+  .ledger-grade{
+    font-family:var(--f-mono); font-size:0.75rem; letter-spacing:0.08em;
+    color:var(--mint); text-transform:uppercase; padding-top:0.2rem;
+  }
+  .ledger-name{
+    font-family:var(--f-display); font-weight:600; font-size:1.3rem; letter-spacing:-0.01em;
+  }
+  .ledger-desc{color:var(--muted); font-size:0.97rem; max-width:480px;}
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy{
+    background:var(--ink); color:var(--paper);
+    padding:6rem 0; text-align:center; position:relative;
+  }
+  .philosophy .wrap{display:flex; flex-direction:column; align-items:center;}
+  .philosophy blockquote{
+    font-family:var(--f-display); font-weight:600;
+    font-size:clamp(1.5rem, 3.4vw, 2.4rem); line-height:1.25;
+    max-width:780px; letter-spacing:-0.015em; margin-bottom:1.6rem;
+  }
+  .philosophy .cite{
+    font-family:var(--f-mono); font-size:0.78rem; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--mint-bright);
+  }
+
+  /* ---------- INSIGHTS TEASER ---------- */
+  .cards{display:grid; grid-template-columns:repeat(3,1fr); gap:1.6rem;}
+  .card{
+    border:1px solid var(--line); border-radius:14px; padding:1.8rem;
+    display:flex; flex-direction:column; gap:1rem; background:var(--paper);
+    transition:transform .2s, border-color .2s;
+  }
+  .card:hover{transform:translateY(-4px); border-color:var(--ink);}
+  .card-tag{
+    font-family:var(--f-mono); font-size:0.7rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--mint); align-self:flex-start;
+    background:var(--mint-tint); padding:0.3rem 0.7rem; border-radius:100px;
+  }
+  .card h3{font-family:var(--f-display); font-size:1.18rem; font-weight:600; letter-spacing:-0.01em;}
+  .card p{color:var(--muted); font-size:0.92rem;}
+  .card .read{font-family:var(--f-mono); font-size:0.78rem; color:var(--ink); opacity:0.6;}
+
+  /* ---------- FOUNDERS ---------- */
+  .founders{display:grid; grid-template-columns:repeat(2,1fr); gap:1.6rem;}
+  .founder{
+    border:1px solid var(--line); border-radius:14px; padding:2rem;
+  }
+  .founder .handle{font-family:var(--f-mono); font-size:0.8rem; color:var(--mint);}
+  .founder h3{font-family:var(--f-display); font-size:1.3rem; margin:0.4rem 0 0.6rem; font-weight:600;}
+  .founder p{color:var(--muted); font-size:0.93rem;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--ink); padding:4.5rem 0 2rem;}
+  .footer-top{
+    display:grid; grid-template-columns:1.2fr 1fr; gap:3rem;
+    padding-bottom:3rem; border-bottom:1px solid var(--line);
+  }
+  .footer-brand{display:flex; align-items:center; gap:0.7rem; margin-bottom:1rem;}
+  .footer-brand svg{width:32px; height:32px;}
+  .footer-brand span{font-family:var(--f-display); font-weight:600; font-size:1.2rem;}
+  .footer-tag{color:var(--muted); font-size:0.95rem; max-width:340px;}
+  .newsletter h4{font-family:var(--f-display); font-weight:600; font-size:1.15rem; margin-bottom:0.5rem;}
+  .newsletter p{color:var(--muted); font-size:0.9rem; margin-bottom:1.2rem;}
+  .newsletter-form{display:flex; gap:0.6rem; max-width:400px;}
+  .newsletter-form input{
+    flex:1; padding:0.85rem 1rem; border-radius:100px; border:1.5px solid var(--line);
+    background:var(--paper-dim); font-family:var(--f-body); font-size:0.9rem; color:var(--ink);
+  }
+  .newsletter-form input:focus{outline:2px solid var(--mint); outline-offset:2px; border-color:var(--mint);}
+  .footer-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:2rem; font-family:var(--f-mono); font-size:0.78rem; color:var(--muted);
+    flex-wrap:wrap; gap:1rem;
+  }
+  .footer-socials{display:flex; gap:1.2rem;}
+  .footer-socials a{opacity:0.7; transition:opacity .2s;}
+  .footer-socials a:hover{opacity:1; color:var(--mint);}
+
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--mint); outline-offset:2px;
+  }
+
+  /* ---------- FLOATING MENU ---------- */
+  .fab-wrap{
+    position:fixed; right:2rem; bottom:2rem; z-index:200;
+    display:flex; flex-direction:column; align-items:flex-end; gap:0.7rem;
+  }
+  .fab-rows{
+    display:flex; flex-direction:column; align-items:flex-end; gap:0.7rem;
+    margin-bottom:0.2rem;
+  }
+  .fab-row{
+    display:flex; align-items:center; gap:0.7rem;
+    background:var(--ink); color:var(--paper);
+    padding:0.8rem 1.1rem; border-radius:100px;
+    box-shadow:0 8px 24px rgba(17,19,16,0.22);
+    font-family:var(--f-body); font-size:0.9rem; font-weight:500;
+    cursor:pointer; white-space:nowrap; border:none;
+    opacity:0; transform:translateY(14px) scale(0.94);
+    pointer-events:none;
+    transition:opacity .32s ease, transform .32s ease, background .2s ease;
+  }
+  .fab-row svg{width:17px; height:17px; flex-shrink:0;}
+  .fab-wrap.open .fab-row{
+    opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
+  }
+  .fab-wrap.open .fab-row:nth-child(1){ transition-delay:.12s; }
+  .fab-wrap.open .fab-row:nth-child(2){ transition-delay:.07s; }
+  .fab-wrap.open .fab-row:nth-child(3){ transition-delay:.02s; }
+  .fab-row:hover{background:var(--mint);}
+  .fab-row .fab-label{flex:1;}
+
+  .fab-row.subscribe-row{ padding:0.5rem 0.5rem 0.5rem 1.1rem; }
+  .fab-subscribe-form{
+    display:flex; align-items:center; gap:0.4rem;
+    max-width:0; overflow:hidden; opacity:0;
+    transition:max-width .35s ease, opacity .25s ease;
+  }
+  .fab-row.subscribing .fab-subscribe-form{
+    max-width:220px; opacity:1; margin-left:0.5rem;
+  }
+  .fab-row.subscribing .fab-label{ display:none; }
+  .fab-subscribe-form input{
+    width:150px; padding:0.55rem 0.8rem; border-radius:100px; border:none;
+    font-family:var(--f-body); font-size:0.85rem;
+    background:var(--paper); color:var(--ink);
+  }
+  .fab-subscribe-form button{
+    background:var(--mint-bright); color:var(--ink); border:none;
+    border-radius:100px; padding:0.55rem 0.9rem; font-size:0.85rem;
+    font-weight:600; cursor:pointer; flex-shrink:0;
+  }
+  .fab-note{
+    font-family:var(--f-mono); font-size:0.72rem; color:var(--paper);
+    background:var(--mint); padding:0.35rem 0.7rem; border-radius:100px;
+    opacity:0; transform:translateY(6px); transition:opacity .3s ease, transform .3s ease;
+    pointer-events:none;
+  }
+  .fab-note.show{ opacity:1; transform:translateY(0); }
+
+  .fab-toggle{
+    width:60px; height:60px; border-radius:50%; border:none;
+    background:var(--ink); cursor:pointer;
+    box-shadow:0 10px 28px rgba(17,19,16,0.28);
+    display:flex; align-items:center; justify-content:center;
+    transition:transform .3s ease, background .2s ease;
+    flex-shrink:0;
+  }
+  .fab-toggle:hover{ background:var(--mint); }
+  .fab-toggle svg{ width:26px; height:26px; transition:transform .35s ease; }
+  .fab-wrap.open .fab-toggle svg{ transform:rotate(135deg); }
+
+  @media (max-width:860px){
+    .fab-wrap{ right:1.2rem; bottom:1.2rem; }
+    .fab-subscribe-form input{ width:110px; }
+  }
+
+  @media (max-width:860px){
+    .nav-links{display:none;}
+    .hero{grid-template-columns:1fr; text-align:left;}
+    .stamp-wrap{order:-1; margin-bottom:1rem;}
+    .ledger-row{grid-template-columns:1fr; gap:0.5rem;}
+    .cards{grid-template-columns:1fr;}
+    .founders{grid-template-columns:1fr;}
+    .footer-top{grid-template-columns:1fr;}
+    .identity-bar{flex-direction:column; align-items:center; gap:0.6rem;}
+    .identity-bar span::before{content:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="brand">
+    <svg viewBox="0 0 100 100" fill="none">
+      <circle cx="50" cy="50" r="50" fill="#111310"/>
+      <circle cx="50" cy="38" r="24" fill="#FAF8F3"/>
+      <path d="M50 20 C50 20 40 34 40 42 C40 50 45 54 50 54 C55 54 60 50 60 42 C60 34 50 20 50 20 Z" fill="none" stroke="#111310" stroke-width="3"/>
+      <path d="M50 40 L50 68" stroke="#111310" stroke-width="3" stroke-linecap="round"/>
+      <path d="M50 68 L38 74 M50 68 L62 74 M50 74 L40 79 M50 74 L60 79" stroke="#111310" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+    <span>enlightmint.</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#insights">Insights</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="btn btn-solid">Book a Strategy Call</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero wrap">
+  <div>
+    <div class="eyebrow">Certified Creative Strategy</div>
+    <h1>Strategic direction for brands ready to stand <em>out</em>, not just up.</h1>
+    <p>We bridge culture, strategy, and experience — refining your image until it holds up under any light. Where your image is in mint condition.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn btn-solid">Book a Strategy Call</a>
+      <a href="#services" class="btn btn-outline">See the Work</a>
+    </div>
+  </div>
+
+  <div class="stamp-wrap">
+    <div class="stamp">
+      <svg viewBox="0 0 300 300">
+        <g class="stamp-rotate">
+          <defs>
+            <path id="circlePath" d="M 150,150 m -120,0 a 120,120 0 1,1 240,0 a 120,120 0 1,1 -240,0"/>
+          </defs>
+          <circle cx="150" cy="150" r="145" fill="none" stroke="#111310" stroke-width="1.5" stroke-dasharray="2 6"/>
+          <text font-family="'IBM Plex Mono', monospace" font-size="12.5" letter-spacing="3" fill="#111310">
+            <textPath href="#circlePath" startOffset="0%">GRADE · MINT CONDITION · ENLIGHTMINT · EST. NYC × PDX · </textPath>
+          </text>
+        </g>
+        <circle cx="150" cy="150" r="92" fill="#111310"/>
+        <circle cx="150" cy="150" r="46" fill="#FAF8F3"/>
+        <path d="M150 116 C150 116 130 142 130 158 C130 172 139 180 150 180 C161 180 170 172 170 158 C170 142 150 116 150 116 Z" fill="none" stroke="#111310" stroke-width="3.4"/>
+        <path d="M150 156 L150 205" stroke="#111310" stroke-width="3.4" stroke-linecap="round"/>
+        <path d="M150 205 L133 214 M150 205 L167 214 M150 213 L136 221 M150 213 L164 221" stroke="#111310" stroke-width="3.4" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ===== IDENTITY BAR ===== -->
+<div class="identity-bar wrap">
+  <span>NYC × PDX</span>
+  <span>Black-Owned Creative Strategy Agency</span>
+  <span>Founders: Nyleese Seabrook & Zoo Eyes</span>
+</div>
+
+<!-- ===== SERVICES ===== -->
+<section id="services" class="section wrap">
+  <div class="section-tag">The Appraisal</div>
+  <h2 class="section-title">Three ways we work with brands, graded by depth of engagement.</h2>
+
+  <div class="ledger">
+    <div class="ledger-row">
+      <div class="ledger-grade">Grade: Mint</div>
+      <div class="ledger-name">Brand &amp; Creative Strategy</div>
+      <div class="ledger-desc">Audits, positioning, visual identity alignment, and messaging frameworks built for long-term authority — not just a refresh.</div>
+    </div>
+    <div class="ledger-row">
+      <div class="ledger-grade">Grade: Near Mint</div>
+      <div class="ledger-name">Experience &amp; Event Direction</div>
+      <div class="ledger-desc">Curating intentional, culture-led activations and physical or digital spaces that leave a lasting impression on the people who matter.</div>
+    </div>
+    <div class="ledger-row">
+      <div class="ledger-grade">Grade: Certified</div>
+      <div class="ledger-name">Executive Strategy Sessions</div>
+      <div class="ledger-desc">High-impact 1:1 consulting for founders, artists, and leaders who need clarity before their next big move.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PHILOSOPHY ===== -->
+<section class="philosophy">
+  <div class="wrap">
+    <blockquote>"Rest, intention, and authentic positioning aren't optional — they're the core of sustainable growth."</blockquote>
+    <div class="cite">The Enlightmint Philosophy</div>
+  </div>
+</section>
+
+<!-- ===== INSIGHTS TEASER ===== -->
+<section id="insights" class="section wrap">
+  <div class="section-tag">Field Notes</div>
+  <h2 class="section-title">Mint Condition Insights — proof of thinking, before you ever book a call.</h2>
+
+  <div class="cards">
+    <div class="card">
+      <span class="card-tag">Strategic Perspectives</span>
+      <h3>Rest as Resistance: Redefining Productivity in Creative Business</h3>
+      <p>Why the industries built on burnout are the ones most in need of a strategy for slowing down.</p>
+      <span class="read">4 min read</span>
+    </div>
+    <div class="card">
+      <span class="card-tag">Field Notes</span>
+      <h3>Bridging NYC Energy and PDX Culture in Event Curation</h3>
+      <p>Notes from the road between two cities that shape how we build a room people remember.</p>
+      <span class="read">5 min read</span>
+    </div>
+    <div class="card">
+      <span class="card-tag">The Mint Standard</span>
+      <h3>The Three Elements of an Image in Mint Condition</h3>
+      <p>A short framework for the brands ready to move from "good enough" to unmistakable.</p>
+      <span class="read">3 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ===== ABOUT / FOUNDERS ===== -->
+<section id="about" class="section wrap">
+  <div class="section-tag">Who's Behind It</div>
+  <h2 class="section-title">Founded across two coasts, built on one standard.</h2>
+  <div class="founders">
+    <div class="founder">
+      <span class="handle">@nyleeseseabrook</span>
+      <h3>Nyleese Seabrook</h3>
+      <p>Co-founder, bringing NYC creative pace and cultural fluency to every brand engagement.</p>
+    </div>
+    <div class="founder">
+      <span class="handle">@z00_eyes</span>
+      <h3>Zoo Eyes</h3>
+      <p>Co-founder, grounding the agency's strategic point of view in PDX perspective and design intention.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <svg viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="50" fill="#111310"/>
+            <circle cx="50" cy="38" r="24" fill="#FAF8F3"/>
+            <path d="M50 20 C50 20 40 34 40 42 C40 50 45 54 50 54 C55 54 60 50 60 42 C60 34 50 20 50 20 Z" fill="none" stroke="#111310" stroke-width="3"/>
+            <path d="M50 40 L50 68" stroke="#111310" stroke-width="3" stroke-linecap="round"/>
+            <path d="M50 68 L38 74 M50 68 L62 74 M50 74 L40 79 M50 74 L60 79" stroke="#111310" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <span>enlightmint.</span>
+        </div>
+        <p class="footer-tag">Where your image is in mint condition. NYC × PDX creative strategy, for brands who don't want to look templated.</p>
+      </div>
+      <div class="newsletter">
+        <h4>Mint Condition Insights</h4>
+        <p>Fresh strategic takes, delivered straight to your inbox.</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('input').value='Thanks — you\'re on the list.';">
+          <input type="email" placeholder="Enter your email" required aria-label="Email address">
+          <button type="submit" class="btn btn-solid">Join</button>
+        </form>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Enlightmint Consultation LLC. All rights reserved.</div>
+      <div class="footer-socials">
+        <a href="https://instagram.com/enlightmintconsultation" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://tiktok.com/@enlightmintconsultation" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== FLOATING MENU ===== -->
+<div class="fab-wrap" id="fabWrap">
+  <div class="fab-rows">
+    <button class="fab-row" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); closeFab();">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+      <span class="fab-label">Book a Consult</span>
+    </button>
+    <button class="fab-row" onclick="document.getElementById('insights').scrollIntoView({behavior:'smooth'}); closeFab();">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/></svg>
+      <span class="fab-label">Field Notes &amp; Stories</span>
+    </button>
+    <div class="fab-row subscribe-row" id="subscribeRow" onclick="openSubscribe(event)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+      <span class="fab-label">Subscribe</span>
+      <form class="fab-subscribe-form" onsubmit="submitFabNewsletter(event)">
+        <input type="email" placeholder="Email" required aria-label="Email address" onclick="event.stopPropagation()">
+        <button type="submit">Join</button>
+      </form>
+    </div>
+  </div>
+  <div class="fab-note" id="fabNote">You're on the list.</div>
+  <button class="fab-toggle" id="fabToggle" onclick="toggleFab()" aria-label="Open menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#FAF8F3" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+</div>
+
+<script>
+  function toggleFab(){
+    document.getElementById('fabWrap').classList.toggle('open');
+  }
+  function closeFab(){
+    document.getElementById('fabWrap').classList.remove('open');
+    document.getElementById('subscribeRow').classList.remove('subscribing');
+  }
+  function openSubscribe(e){
+    const row = document.getElementById('subscribeRow');
+    if (!row.classList.contains('subscribing')){
+      e.preventDefault();
+      row.classList.add('subscribing');
+      row.querySelector('input').focus();
+    }
+  }
+  function submitFabNewsletter(e){
+    e.preventDefault();
+    e.stopPropagation();
+    const note = document.getElementById('fabNote');
+    note.classList.add('show');
+    e.target.reset();
+    setTimeout(()=>{ closeFab(); note.classList.remove('show'); }, 1800);
+  }
+  document.addEventListener('click', function(e){
+    const wrap = document.getElementById('fabWrap');
+    if (wrap.classList.contains('open') && !wrap.contains(e.target)){
+      closeFab();
+    }
+  });
+</script>
+
+</body>
+</html>
